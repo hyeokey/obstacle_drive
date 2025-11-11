@@ -197,7 +197,7 @@ private:
             double steering;
             double yaw_deg = yaw * 180.0 / M_PI;
             if (yaw_deg < 0) {
-                steering = 0.57165 + (yaw_deg / 25.0) * 0.57165; // 왼쪽을 더 급격하게 회전
+                steering = 0.57165 + (yaw_deg / 25.0) * 0.57165 * 1.2; // 왼쪽을 더 급격하게 회전
             } else {
                 steering = 0.57165 + (yaw_deg / 20.0) * (1.0 - 0.57165);
             }
