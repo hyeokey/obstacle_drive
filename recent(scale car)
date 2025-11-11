@@ -24,7 +24,7 @@ public:
         pub_speed_ = nh.advertise<std_msgs::Float64>("/commands/motor/speed", 1);
         pub_servo_ = nh.advertise<std_msgs::Float64>("/commands/servo/position", 1);
 
-        eps_ = 0.3;          // 클러스터 간 거리 (20~25cm)
+        eps_ = 0.25;          // 클러스터 간 거리 (20~25cm)
         min_samples_ = 2;     // 최소 점 수
         follow_speed_ = 900;  // 주행 속도
         min_speed_ = 900;     // 인식 안 될 때 속도
@@ -87,7 +87,7 @@ private:
 
         // --- 포인트 필터링: 20cm ~ 80cm, 전방(±60° around 180°)만 ---
         for (auto r : scan->ranges) {
-            if (!std::isfinite(r) || r < 0.2 || r > 0.8) {
+            if (!std::isfinite(r) || r < 0.13 || r > 0.8) {
                 angle += scan->angle_increment;
                 continue;
             }
@@ -95,7 +95,7 @@ private:
             double x = r * std::cos(angle);
             double y = r * std::sin(angle);
 
-            // LiDAR의 0도가 뒤쪽이므로, 전방은 angle이 (π - π/3) ~ (π + π/3)
+            // LiDAR의 0도가 뒤쪽이므로, +-75도
             if (angle < M_PI - (5 * M_PI / 12) || angle > M_PI + (5 * M_PI / 12)) {
                 angle += scan->angle_increment;
                 continue;
