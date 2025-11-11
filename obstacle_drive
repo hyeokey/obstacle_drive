@@ -85,7 +85,7 @@ private:
         std::vector<Point2D> points;
         double angle = scan->angle_min;
 
-            // --- 포인트 필터링: 30cm ~ 50cm, 전방(±60° around 180°)만 ---
+            // --- 포인트 필터링: 13cm ~ 90cm 
         for (auto r : scan->ranges) {
             if (!std::isfinite(r) || r < 0.13 || r > 0.9) {
             angle += scan->angle_increment;
@@ -197,9 +197,9 @@ private:
             double steering;
             double yaw_deg = yaw * 180.0 / M_PI;
             if (yaw_deg < 0) {
-                steering = 0.57165 + (yaw_deg / 19.0) * 0.57165; // 왼쪽을 더 급격하게 회전
+                steering = 0.57165 + (yaw_deg / 25.0) * 0.57165; // 왼쪽을 더 급격하게 회전
             } else {
-                steering = 0.57165 + (yaw_deg / 22.0) * (1.0 - 0.57165);
+                steering = 0.57165 + (yaw_deg / 20.0) * (1.0 - 0.57165);
             }
             steering = std::clamp(steering, 0.0, 1.0);
 
