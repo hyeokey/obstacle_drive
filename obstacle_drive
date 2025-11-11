@@ -87,19 +87,13 @@ private:
 
             // --- 포인트 필터링: 30cm ~ 50cm, 전방(±60° around 180°)만 ---
         for (auto r : scan->ranges) {
-            if (!std::isfinite(r) || r < scan->range_min || r > 0.9) {
+            if (!std::isfinite(r) || r < 0.13 || r > 0.9) {
             angle += scan->angle_increment;
             continue;
             }
 
             double x = r * std::cos(angle);
             double y = r * std::sin(angle);
-
-        // LiDAR의 0도가 뒤쪽이므로, 전방은 angle이 (π - π/3) ~ (π + π/3)
-        if (angle < M_PI - M_PI/3 || angle > M_PI + M_PI/3) {
-                angle += scan->angle_increment;
-                continue;
-            }
 
             points.push_back({x, y});
             angle += scan->angle_increment;
