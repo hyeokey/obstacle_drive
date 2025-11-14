@@ -97,8 +97,8 @@ private:
             continue;
             }
 
-            double x = r * std::cos(angle);
-            double y = r * std::sin(angle);
+            double x = r * std::cos(shifted_angle);
+            double y = r * std::sin(shifted_angle);
 
             points.push_back({x, y});
             angle += scan->angle_increment;
@@ -138,6 +138,7 @@ private:
                     cx /= count;
                     cy /= count;
 
+                    double ang = atan2(cy, cx);
                     if (cy > 0) {
                         left_cnt++;
                         left_x_sum += cx;
