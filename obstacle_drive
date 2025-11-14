@@ -138,7 +138,6 @@ private:
                     cx /= count;
                     cy /= count;
 
-                    double ang = atan2(cy, cx);
                     if (cy > 0) {
                         left_cnt++;
                         left_x_sum += cx;
