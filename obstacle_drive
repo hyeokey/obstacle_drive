@@ -24,11 +24,11 @@ public:
         pub_speed_ = nh.advertise<std_msgs::Float64>("/commands/motor/speed", 1);
         pub_servo_ = nh.advertise<std_msgs::Float64>("/commands/servo/position", 1);
 
-        eps_ = 0.3;          // 클러스터 간 거리 (20~25cm)
+        eps_ = 0.2;          // 클러스터 간 거리 (20~25cm)
         min_samples_ = 2;     // 최소 점 수
         follow_speed_ = 900;  // 주행 속도
         min_speed_ = 900;     // 인식 안 될 때 속도
-        k_yaw_ = 0.3;         // 조향 비율
+        k_yaw_ = 1.2;         // 조향 비율
     }
 
 private:
@@ -186,10 +186,10 @@ private:
                 target_y = weight_left * left_y + weight_right * right_y;
             } else if (left_cnt > 0) {
                 target_x = left_x_sum / left_cnt;
-                target_y = (left_y_sum / left_cnt) - 0.25;  // 왼쪽 → 오른쪽 피하기
+                target_y = (left_y_sum / left_cnt) - 0.12;  // 왼쪽 → 오른쪽 피하기
             } else if (right_cnt > 0) {
                 target_x = right_x_sum / right_cnt;
-                target_y = (right_y_sum / right_cnt) + 0.25; // 오른쪽 → 왼쪽 피하기
+                target_y = (right_y_sum / right_cnt) + 0.12; // 오른쪽 → 왼쪽 피하기
             } else {
                 ROS_WARN_THROTTLE(1.0, "No clusters detected — moving straight slowly");
                 publishMinimalSpeed(true);
@@ -197,6 +197,7 @@ private:
             }
 
             double yaw = atan2(target_y, target_x);
+            yaw *= k_yaw_;
 
             // yaw → 0~1 servo 스케일 변환
             double steering;
