@@ -92,7 +92,7 @@ private:
             continue;
             }
 
-            if (shifted_angle < -2.094 || shifted_angle > 2.094) {  
+            if (angle < -2.094 || angle > 2.094) {  
             angle += scan->angle_increment;
             continue;
             }
