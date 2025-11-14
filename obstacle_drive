@@ -91,14 +91,14 @@ private:
             angle += scan->angle_increment;
             continue;
             }
-            double shifted_angle = angle - M_PI;  // 180° 기준으로 변환
+
             if (shifted_angle < -2.094 || shifted_angle > 2.094) {  
             angle += scan->angle_increment;
             continue;
             }
 
-            double x = r * std::cos(shifted_angle);
-            double y = r * std::sin(shifted_angle);
+            double x = r * std::cos(angle);
+            double y = r * std::sin(angle);
 
             points.push_back({x, y});
             angle += scan->angle_increment;
